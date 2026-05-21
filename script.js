@@ -7,24 +7,21 @@
    ══════════════════════════════════════════════
    Pour connecter les disponibilités à Google Sheets :
    1. Crée un Google Sheet avec une feuille nommée "Dispos"
-   2. Structure de la feuille (exemple) :
+   2. Structure de la feuille :
       A1 : Semaine du 2 juin     B1 : (vide)
       A2 : Lundi                 B2 : 9h · 13h
-      A3 : Mardi                 B3 : (vide)
+      A3 : Mardi                 B3 : (vide si pas de dispo)
       A4 : Mercredi              B4 : 14h
       A5 : Jeudi                 B5 : 17h
       A6 : Vendredi              B6 : (vide)
       A7 : Samedi                B7 : (vide)
       A8 : Dimanche              B8 : (vide)
-   3. Rendre le sheet public :
-      Partager → Tous les utilisateurs avec le lien → Lecteur
-   4. Copier l'ID dans l'URL entre /spreadsheets/d/ et /edit
-   5. Coller cet ID ci-dessous à la place de 'VOTRE_ID_ICI'
+   3. Partager → Tous les utilisateurs avec le lien → Lecteur
+   4. Copier l'ID de l'URL (entre /spreadsheets/d/ et /edit)
+   5. Coller cet ID ci-dessous
 ══════════════════════════════════════════════ */
 const GOOGLE_SHEET_ID = 'VOTRE_ID_ICI';
 
-/* Données de secours affichées si Google Sheets
-   n'est pas encore configuré ⬇️ */
 const FALLBACK_DISPOS = {
   semaine: 'Semaine du 25 mai',
   jours: [
@@ -38,88 +35,124 @@ const FALLBACK_DISPOS = {
   ]
 };
 
-/* ── Nav : fond au scroll ──────────────────── */
+/* ── Nav scroll ────────────────────────────── */
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
-}, { passive: true });
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
 
 /* ── Animations au scroll ──────────────────── */
-const observer = new IntersectionObserver(
-  entries => entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in-view'); observer.unobserve(e.target); }
-  }),
+const scrollObserver = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); scrollObserver.unobserve(e.target); } }),
   { threshold: 0.12, rootMargin: '0px 0px -30px 0px' }
 );
-
 document.querySelectorAll('[data-animate]').forEach((el, i) => {
   el.style.transitionDelay = `${i * 0.06}s`;
-  observer.observe(el);
+  scrollObserver.observe(el);
 });
+
+/* ══════════════════════════════════════════════
+   ÉTAT DU BOOKING
+══════════════════════════════════════════════ */
+const booking = {
+  jour:      null,
+  heure:     null,
+  prenom:    '',
+  email:     '',
+  instagram: '',
+  service:   null,
+  teinte:    '',
+  message:   '',
+};
 
 /* ══════════════════════════════════════════════
    DISPONIBILITÉS — Google Sheets
 ══════════════════════════════════════════════ */
 async function loadDisponibilites() {
-  // Si l'ID n'est pas configuré, on affiche le fallback
   if (!GOOGLE_SHEET_ID || GOOGLE_SHEET_ID === 'VOTRE_ID_ICI') {
     renderDispos(FALLBACK_DISPOS);
     return;
   }
-
   try {
     const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Dispos`;
     const res  = await fetch(url);
-    if (!res.ok) throw new Error('sheet non accessible');
-    const csv  = await res.text();
-    const data = parseSheetCSV(csv);
-    renderDispos(data);
-  } catch (err) {
-    console.warn('Google Sheets indisponible, affichage du fallback.', err);
+    if (!res.ok) throw new Error();
+    renderDispos(parseSheetCSV(await res.text()));
+  } catch {
     renderDispos(FALLBACK_DISPOS);
   }
 }
 
 function parseSheetCSV(csv) {
   const rows = csv.trim().split('\n').map(line =>
-    line.split(',').map(cell => cell.trim().replace(/^"|"$/g, ''))
+    line.split(',').map(c => c.trim().replace(/^"|"$/g, ''))
   );
+  return {
+    semaine: rows[0]?.[0] || '',
+    jours: rows.slice(1, 8).map(r => ({ jour: r[0] || '', slot: r[1] || '' })).filter(r => r.jour)
+  };
+}
 
-  // Ligne 0 = semaine (ex: "Semaine du 2 juin")
-  const semaine = rows[0]?.[0] || '';
-  // Lignes 1-7 = jours + slots
-  const jours = rows.slice(1, 8).map(row => ({
-    jour: row[0] || '',
-    slot: row[1] || ''
-  })).filter(r => r.jour);
-
-  return { semaine, jours };
+function parseTimes(slotStr) {
+  return slotStr ? slotStr.split('·').map(t => t.trim()).filter(Boolean) : [];
 }
 
 function renderDispos({ semaine, jours }) {
   document.getElementById('disposWeek').textContent = semaine;
-
-  const grid = document.getElementById('disposGrid');
+  const grid = document.getElementById('daysGrid');
   grid.innerHTML = '';
 
-  jours.forEach((item, i) => {
+  jours.forEach((item, idx) => {
+    const times     = parseTimes(item.slot);
+    const available = times.length > 0;
+
     const card = document.createElement('div');
-    card.className = 'dispo-card' + (i === 6 ? ' dispo-card--wide' : '');
-    card.setAttribute('data-animate', '');
-    card.style.transitionDelay = `${i * 0.05}s`;
+    card.className = 'day-card' + (!available ? ' day-card--off' : '') + (idx === 6 ? ' day-card--wide' : '');
 
     card.innerHTML = `
-      <span class="dispo-card__day">${item.jour}</span>
-      <span class="slot">${item.slot}</span>
+      <span class="day-card__name">${item.jour}</span>
+      <span class="day-card__slot">${item.slot || '—'}</span>
     `;
-    grid.appendChild(card);
 
-    // Re-observer pour l'animation
-    observer.observe(card);
+    if (available) {
+      card.addEventListener('click', () => selectDay(card, item.jour, times));
+    }
+
+    grid.appendChild(card);
   });
 }
 
-// Charger au démarrage
+function selectDay(card, jour, times) {
+  // Reset sélection précédente
+  document.querySelectorAll('.day-card').forEach(c => c.classList.remove('day-card--selected'));
+  card.classList.add('day-card--selected');
+  booking.jour  = jour;
+  booking.heure = null;
+
+  // Afficher les créneaux horaires
+  const slotsBox  = document.getElementById('timeSlots');
+  const slotsGrid = document.getElementById('timeSlotsGrid');
+  const label     = document.getElementById('timeSlotsLabel');
+
+  label.textContent = `Créneaux — ${jour}`;
+  slotsGrid.innerHTML = '';
+
+  times.forEach(t => {
+    const btn = document.createElement('button');
+    btn.type      = 'button';
+    btn.className = 'time-btn';
+    btn.textContent = t;
+    btn.addEventListener('click', () => selectTime(btn, t));
+    slotsGrid.appendChild(btn);
+  });
+
+  slotsBox.classList.add('visible');
+}
+
+function selectTime(btn, heure) {
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('time-btn--selected'));
+  btn.classList.add('time-btn--selected');
+  booking.heure = heure;
+}
+
 loadDisponibilites();
 
 /* ══════════════════════════════════════════════
@@ -129,116 +162,133 @@ const CLIENT_KEY = 'tds_client';
 
 function loadClientProfile() {
   try {
-    const saved = localStorage.getItem(CLIENT_KEY);
-    if (!saved) return;
-
-    const client = JSON.parse(saved);
+    const client = JSON.parse(localStorage.getItem(CLIENT_KEY) || '{}');
     if (!client.prenom) return;
-
-    // Pré-remplir les champs
-    document.getElementById('prenomInput').value = client.prenom || '';
-    document.getElementById('emailInput').value  = client.email  || '';
+    document.getElementById('prenomInput').value = client.prenom    || '';
+    document.getElementById('emailInput').value  = client.email     || '';
     document.getElementById('instaInput').value  = client.instagram || '';
-
-    // Afficher le bandeau de bienvenue
     document.getElementById('returningName').textContent = client.prenom;
     document.getElementById('clientReturning').style.display = 'block';
-  } catch (_) {}
+  } catch {}
 }
 
-function saveClientProfile(prenom, email, instagram) {
+function saveClientProfile() {
   try {
-    localStorage.setItem(CLIENT_KEY, JSON.stringify({ prenom, email, instagram }));
-  } catch (_) {}
+    localStorage.setItem(CLIENT_KEY, JSON.stringify({
+      prenom:    document.getElementById('prenomInput').value.trim(),
+      email:     document.getElementById('emailInput').value.trim(),
+      instagram: document.getElementById('instaInput').value.trim(),
+    }));
+  } catch {}
 }
 
 function resetClient() {
   localStorage.removeItem(CLIENT_KEY);
-  document.getElementById('prenomInput').value = '';
-  document.getElementById('emailInput').value  = '';
-  document.getElementById('instaInput').value  = '';
+  ['prenomInput','emailInput','instaInput'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('clientReturning').style.display = 'none';
 }
 
-// Charger le profil au démarrage
 loadClientProfile();
 
 /* ══════════════════════════════════════════════
-   FORMULAIRE MULTI-ÉTAPES
+   CAROUSEL
 ══════════════════════════════════════════════ */
-let currentStep = 1;
+let currentPanel = 1;
+const TOTAL      = 4;
 
-function nextStep(step) {
-  if (!validateStep(step)) return;
+function goToPanel(n) {
+  const track   = document.getElementById('carouselTrack');
+  track.style.transform = `translateX(-${(n - 1) * 100}%)`;
 
-  // Sauvegarder le profil après l'étape 1
-  if (step === 1) {
-    saveClientProfile(
-      document.getElementById('prenomInput').value.trim(),
-      document.getElementById('emailInput').value.trim(),
-      document.getElementById('instaInput').value.trim()
-    );
+  // Steps
+  document.querySelectorAll('.bstep').forEach((s, i) => {
+    s.classList.toggle('active', i + 1 === n);
+    s.classList.toggle('done',   i + 1 <  n);
+  });
+
+  // Bouton précédent
+  const prevBtn = document.getElementById('prevBtn');
+  prevBtn.style.visibility = n === 1 ? 'hidden' : 'visible';
+
+  // Bouton suivant
+  const nextBtn = document.getElementById('nextBtn');
+  if (n === TOTAL) {
+    nextBtn.innerHTML = 'Envoyer ♥';
+    nextBtn.onclick   = submitBooking;
+  } else {
+    nextBtn.innerHTML = 'Continuer <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    nextBtn.onclick   = nextPanel;
   }
 
-  document.querySelector(`[data-step="${step}"]`).classList.replace('active', 'done');
-  document.querySelector(`[data-panel="${step}"]`).classList.remove('active');
-
-  currentStep = step + 1;
-  document.querySelector(`[data-panel="${currentStep}"]`).classList.add('active');
-  document.querySelector(`[data-step="${currentStep}"]`).classList.add('active');
-
-  document.getElementById('bookingForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  currentPanel = n;
 }
 
-function prevStep(step) {
-  document.querySelector(`[data-panel="${step}"]`).classList.remove('active');
-  document.querySelector(`[data-step="${step}"]`).classList.remove('active');
-
-  currentStep = step - 1;
-  document.querySelector(`[data-panel="${currentStep}"]`).classList.add('active');
-  document.querySelector(`[data-step="${currentStep}"]`).classList.remove('done');
-  document.querySelector(`[data-step="${currentStep}"]`).classList.add('active');
-
-  document.getElementById('bookingForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+function nextPanel() {
+  if (!validatePanel(currentPanel)) return;
+  if (currentPanel === 2) saveClientProfile();
+  if (currentPanel < TOTAL) goToPanel(currentPanel + 1);
 }
 
-function validateStep(step) {
-  let ok = true;
+function prevPanel() {
+  if (currentPanel > 1) goToPanel(currentPanel - 1);
+}
 
-  if (step === 1) {
-    const prenom = document.getElementById('prenomInput');
-    const email  = document.getElementById('emailInput');
-    const insta  = document.getElementById('instaInput');
+/* ── Swipe tactile ─────────────────────────── */
+let touchX = 0, touchY = 0;
+const carousel = document.getElementById('carousel');
 
-    if (!prenom.value.trim()) { shake(prenom); prenom.classList.add('error'); ok = false; }
-    if (!email.value.trim() || !email.value.includes('@')) { shake(email); email.classList.add('error'); ok = false; }
-    if (!insta.value.trim()) { shake(insta); insta.classList.add('error'); ok = false; }
+carousel.addEventListener('touchstart', e => {
+  touchX = e.touches[0].clientX;
+  touchY = e.touches[0].clientY;
+}, { passive: true });
 
-    [prenom, email, insta].forEach(el =>
-      el.addEventListener('input', () => el.classList.remove('error'), { once: true })
-    );
+carousel.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchX;
+  const dy = e.changedTouches[0].clientY - touchY;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 55) {
+    dx < 0 ? nextPanel() : prevPanel();
+  }
+}, { passive: true });
+
+/* ── Validation ────────────────────────────── */
+function validatePanel(n) {
+  if (n === 1) {
+    if (!booking.jour) {
+      shake(document.getElementById('daysGrid'));
+      return false;
+    }
+    if (!booking.heure) {
+      shake(document.getElementById('timeSlotsGrid'));
+      return false;
+    }
+    return true;
   }
 
-  if (step === 2) {
-    const serviceChecked = document.querySelector('input[name="service"]:checked');
-    if (!serviceChecked) {
+  if (n === 2) {
+    const p = document.getElementById('prenomInput');
+    const e = document.getElementById('emailInput');
+    const i = document.getElementById('instaInput');
+    let ok  = true;
+    if (!p.value.trim()) { shake(p); p.classList.add('error'); ok = false; }
+    if (!e.value.trim() || !e.value.includes('@')) { shake(e); e.classList.add('error'); ok = false; }
+    if (!i.value.trim()) { shake(i); i.classList.add('error'); ok = false; }
+    [p, e, i].forEach(el => el.addEventListener('input', () => el.classList.remove('error'), { once: true }));
+    return ok;
+  }
+
+  if (n === 3) {
+    if (!document.querySelector('input[name="service"]:checked')) {
       shake(document.getElementById('serviceGroup'));
-      ok = false;
+      return false;
     }
-
-    const teinte = document.getElementById('teinteSelect');
-    if (!teinte.value) { shake(teinte); ok = false; }
-
-    const creneau = document.getElementById('creneauInput');
-    if (!creneau.value.trim()) {
-      shake(creneau);
-      creneau.classList.add('error');
-      creneau.addEventListener('input', () => creneau.classList.remove('error'), { once: true });
-      ok = false;
+    if (!document.getElementById('teinteSelect').value) {
+      shake(document.getElementById('teinteSelect'));
+      return false;
     }
+    return true;
   }
 
-  return ok;
+  return true; // panel 4 : photos optionnelles
 }
 
 function shake(el) {
@@ -251,11 +301,11 @@ function shake(el) {
 const shakeStyle = document.createElement('style');
 shakeStyle.textContent = `
   @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%       { transform: translateX(-6px); }
-    40%       { transform: translateX(6px); }
-    60%       { transform: translateX(-4px); }
-    80%       { transform: translateX(4px); }
+    0%,100%{ transform:translateX(0); }
+    20%    { transform:translateX(-6px); }
+    40%    { transform:translateX(6px); }
+    60%    { transform:translateX(-4px); }
+    80%    { transform:translateX(4px); }
   }
 `;
 document.head.appendChild(shakeStyle);
@@ -264,62 +314,60 @@ document.head.appendChild(shakeStyle);
 function handleUpload(input, previewId, labelId) {
   const preview = document.getElementById(previewId);
   const label   = document.getElementById(labelId);
-
   preview.innerHTML = '';
-
   const files = Array.from(input.files).slice(0, 3);
   if (!files.length) return;
-
   files.forEach(file => {
     if (!file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = e => {
       const img = document.createElement('img');
       img.src = e.target.result;
-      img.alt = 'Aperçu';
       preview.appendChild(img);
     };
     reader.readAsDataURL(file);
   });
-
   label.textContent = `${files.length} photo${files.length > 1 ? 's' : ''} sélectionnée${files.length > 1 ? 's' : ''} ✓`;
 }
 
 /* ── Soumission ────────────────────────────── */
-document.getElementById('bookingForm').addEventListener('submit', function (e) {
-  e.preventDefault();
+function submitBooking() {
+  /* Option Formspree — décommenter après avoir configuré :
+  const fd = new FormData();
+  fd.append('jour',      booking.jour);
+  fd.append('heure',     booking.heure);
+  fd.append('prenom',    document.getElementById('prenomInput').value);
+  fd.append('email',     document.getElementById('emailInput').value);
+  fd.append('instagram', document.getElementById('instaInput').value);
+  fd.append('service',   document.querySelector('input[name="service"]:checked')?.value);
+  fd.append('teinte',    document.getElementById('teinteSelect').value);
+  fd.append('message',   document.getElementById('messageInput').value);
+  fetch('https://formspree.io/f/VOTRE_ID', { method:'POST', body:fd, headers:{ Accept:'application/json' } });
+  */
 
-  const data = Object.fromEntries(new FormData(this));
+  const prenom    = document.getElementById('prenomInput').value;
+  const service   = document.querySelector('input[name="service"]:checked')?.value || '—';
+  const teinte    = document.getElementById('teinteSelect').value || '—';
+  const message   = document.getElementById('messageInput').value;
 
-  /* ── Option Formspree (recommandé) ─────────
-     Créer un compte sur https://formspree.io
-     Remplacer VOTRE_ID par votre identifiant.
-     Décommenter les lignes ci-dessous.
-
-  fetch('https://formspree.io/f/VOTRE_ID', {
-    method: 'POST',
-    body: new FormData(this),
-    headers: { 'Accept': 'application/json' }
-  });
-  ─────────────────────────────────────────── */
-
-  // Récapitulatif
   document.getElementById('confirmRecap').innerHTML = `
-    <strong>Prénom&nbsp;:</strong> ${data.prenom || '—'}<br>
-    <strong>Email&nbsp;:</strong> ${data.email || '—'}<br>
-    <strong>Instagram&nbsp;:</strong> ${data.instagram || '—'}<br>
-    <strong>Service&nbsp;:</strong> ${data.service || '—'}<br>
-    <strong>Teinte&nbsp;:</strong> ${data.teinte || '—'}<br>
-    <strong>Créneau souhaité&nbsp;:</strong> ${data.creneau || '—'}
-    ${data.message ? `<br><strong>Message&nbsp;:</strong> ${data.message}` : ''}
+    <strong>Jour :</strong> ${booking.jour}<br>
+    <strong>Heure :</strong> ${booking.heure}<br>
+    <strong>Prénom :</strong> ${prenom}<br>
+    <strong>Instagram :</strong> ${document.getElementById('instaInput').value}<br>
+    <strong>Service :</strong> ${service}<br>
+    <strong>Teinte :</strong> ${teinte}
+    ${message ? `<br><strong>Message :</strong> ${message}` : ''}
   `;
 
-  // Masquer le formulaire
-  document.getElementById('formSteps').style.display = 'none';
-  this.style.display = 'none';
+  document.getElementById('bsteps').style.display   = 'none';
+  document.getElementById('carousel').style.display = 'none';
+  document.querySelector('.carousel__footer').style.display = 'none';
 
-  // Afficher la confirmation
   const conf = document.getElementById('confirmation');
   conf.classList.add('show');
   conf.scrollIntoView({ behavior: 'smooth', block: 'center' });
-});
+}
+
+/* Initialisation carousel */
+goToPanel(1);

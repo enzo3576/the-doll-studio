@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <meta name="description" content="The Doll Studio — Prothésiste ongulaire à Rennes. Renforcement & pose américaine. Teintes nude et rouge.">
+  <meta name="description" content="The Doll Studio — Prothésiste ongulaire à Rennes. Renforcement & pose américaine.">
   <title>The Doll Studio — Pose d'ongles à Rennes</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,73 +12,46 @@
 
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- ==========================================
-     NAVIGATION
-========================================== -->
+<!-- NAV -->
 <nav class="nav" id="nav">
   <div class="nav__logo">the doll studio</div>
   <a href="#reservation" class="nav__cta">Réserver</a>
 </nav>
 
-<!-- ==========================================
-     HERO
-========================================== -->
+<!-- HERO -->
 <section class="hero">
   <div class="hero__content">
     <p class="hero__eyebrow">Rennes · Villejean</p>
     <h1 class="hero__title">the doll<br>studio</h1>
     <p class="hero__subtitle">Prothésiste ongulaire<br><em>Renforcement & Pose américaine</em></p>
     <a href="#reservation" class="btn btn--primary hero__cta">
-      <span>Prendre rendez-vous</span>
+      Prendre rendez-vous
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
   </div>
   <div class="hero__line"></div>
 </section>
 
-<!-- ==========================================
-     TEINTES
-========================================== -->
+<!-- TEINTES -->
 <section class="teintes">
   <div class="container">
     <p class="section-label">Collection actuelle</p>
     <h2 class="section-title">Teintes disponibles</h2>
     <div class="teintes__grid">
 
-      <div class="teinte-card teinte-card--nude" data-animate>
+      <div class="teinte-card" data-animate>
         <div class="teinte-card__nail">
-          <svg viewBox="0 0 40 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 2C10 2 4 14 4 30C4 50 10 66 20 66C30 66 36 50 36 30C36 14 30 2 20 2Z" fill="url(#nude-grad)"/>
-            <path d="M20 2C10 2 4 14 4 30" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-            <defs>
-              <linearGradient id="nude-grad" x1="8" y1="5" x2="36" y2="66" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#E8C8BE"/>
-                <stop offset="50%" stop-color="#C9A090"/>
-                <stop offset="100%" stop-color="#A87860"/>
-              </linearGradient>
-            </defs>
-          </svg>
+          <svg viewBox="0 0 40 68" fill="none"><path d="M20 2C10 2 4 14 4 30C4 50 10 66 20 66C30 66 36 50 36 30C36 14 30 2 20 2Z" fill="url(#ng)"/><path d="M20 2C10 2 4 14 4 30" stroke="rgba(255,255,255,0.15)" stroke-width="1"/><defs><linearGradient id="ng" x1="8" y1="5" x2="36" y2="66" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#E8C8BE"/><stop offset="50%" stop-color="#C9A090"/><stop offset="100%" stop-color="#A87860"/></linearGradient></defs></svg>
         </div>
         <h3>Nude</h3>
         <p>Naturel, élégant, intemporel</p>
       </div>
 
-      <div class="teinte-card teinte-card--rouge" data-animate>
+      <div class="teinte-card" data-animate>
         <div class="teinte-card__nail">
-          <svg viewBox="0 0 40 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 2C10 2 4 14 4 30C4 50 10 66 20 66C30 66 36 50 36 30C36 14 30 2 20 2Z" fill="url(#rouge-grad)"/>
-            <path d="M20 2C10 2 4 14 4 30" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <defs>
-              <linearGradient id="rouge-grad" x1="8" y1="5" x2="36" y2="66" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#E8001A"/>
-                <stop offset="50%" stop-color="#A8000C"/>
-                <stop offset="100%" stop-color="#600008"/>
-              </linearGradient>
-            </defs>
-          </svg>
+          <svg viewBox="0 0 40 68" fill="none"><path d="M20 2C10 2 4 14 4 30C4 50 10 66 20 66C30 66 36 50 36 30C36 14 30 2 20 2Z" fill="url(#rg)"/><path d="M20 2C10 2 4 14 4 30" stroke="rgba(255,255,255,0.12)" stroke-width="1"/><defs><linearGradient id="rg" x1="8" y1="5" x2="36" y2="66" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#E8001A"/><stop offset="50%" stop-color="#A8000C"/><stop offset="100%" stop-color="#600008"/></linearGradient></defs></svg>
         </div>
         <h3>Rouge</h3>
         <p>Intense, sensuel, affirmé</p>
@@ -88,290 +61,236 @@
   </div>
 </section>
 
-<!-- ==========================================
-     SERVICES
-========================================== -->
+<!-- SERVICES -->
 <section class="services" id="services">
   <div class="container">
     <p class="section-label">Ce que je propose</p>
     <h2 class="section-title">Mes services</h2>
-
     <div class="services__grid">
 
       <div class="service-card" data-animate>
         <div class="service-card__num">01</div>
         <h3 class="service-card__name">Renforcement</h3>
-        <p class="service-card__desc">Superposition de gel ou acrygel directement sur l'ongle naturel pour le renforcer et l'allonger subtilement. Résultat naturel et solide.</p>
-        <div class="service-card__meta">
-          <span>~1h30 – 2h</span>
-          <!-- Décommentez pour afficher un prix : -->
-          <!-- <span>À partir de 45€</span> -->
-        </div>
+        <p class="service-card__desc">Superposition de gel ou acrygel sur l'ongle naturel pour le renforcer et l'allonger subtilement. Résultat naturel et solide.</p>
+        <div class="service-card__meta"><span>~1h30 – 2h</span></div>
       </div>
 
       <div class="service-card" data-animate>
         <div class="service-card__num">02</div>
         <h3 class="service-card__name">Pose américaine</h3>
-        <p class="service-card__desc">Extension d'ongles avec tips pour un rendu long, lisse et sculpté. Allonge et structure l'ongle pour un effet dramatic ou naturel.</p>
-        <div class="service-card__meta">
-          <span>~2h – 2h30</span>
-          <!-- Décommentez pour afficher un prix : -->
-          <!-- <span>À partir de 55€</span> -->
-        </div>
+        <p class="service-card__desc">Extension avec tips pour un rendu long, lisse et sculpté. Allonge et structure l'ongle.</p>
+        <div class="service-card__meta"><span>~2h – 2h30</span></div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ==========================================
-     DISPONIBILITÉS
-     Chargées automatiquement depuis Google Sheets.
-     Pour configurer, voir CLAUDE.md → section Google Sheets.
-
-     ⚡ Si Google Sheets n'est pas configuré, les horaires
-     sont ceux codés dans script.js → FALLBACK_DISPOS
-========================================== -->
-<section class="dispos" id="dispos">
+<!-- ══════════════════════════════════════════════
+     BLOC UNIFIÉ : DISPONIBILITÉS + RÉSERVATION
+     ══════════════════════════════════════════════
+     4 étapes dans un carousel scrollable gauche/droite :
+     1. Quand ? (jour + heure depuis Google Sheets)
+     2. Profil  (prénom, email, instagram)
+     3. Service (type + teinte)
+     4. Photos  (ongles actuels + inspiration)
+══════════════════════════════════════════════ -->
+<section class="booking" id="reservation">
   <div class="container">
-    <p class="section-label">Agenda</p>
-    <h2 class="section-title">Disponibilités</h2>
+    <p class="section-label">Disponibilités & Réservation</p>
+    <h2 class="section-title">Prendre rendez-vous</h2>
 
-    <!-- Date de la semaine — mise à jour depuis Google Sheets -->
-    <p class="dispos__week" id="disposWeek">Chargement…</p>
-
-    <!-- Grille — peuplée automatiquement par script.js -->
-    <div class="dispos__grid" id="disposGrid">
-      <div class="dispos__loading">
-        <div class="dispos__loading-dot"></div>
-        <span>Mise à jour en cours…</span>
+    <!-- Indicateur d'étapes -->
+    <div class="bsteps" id="bsteps">
+      <div class="bstep active" data-step="1">
+        <span class="bstep__dot"></span>
+        <span class="bstep__label">Quand ?</span>
+      </div>
+      <div class="bstep__line"></div>
+      <div class="bstep" data-step="2">
+        <span class="bstep__dot"></span>
+        <span class="bstep__label">Profil</span>
+      </div>
+      <div class="bstep__line"></div>
+      <div class="bstep" data-step="3">
+        <span class="bstep__dot"></span>
+        <span class="bstep__label">Service</span>
+      </div>
+      <div class="bstep__line"></div>
+      <div class="bstep" data-step="4">
+        <span class="bstep__dot"></span>
+        <span class="bstep__label">Photos</span>
       </div>
     </div>
 
-    <p class="dispos__note">Tu ne vois pas de créneau qui te convient&nbsp;? Envoie-moi un message, je peux parfois m'adapter. ♥</p>
-  </div>
-</section>
+    <!-- Carousel -->
+    <div class="carousel" id="carousel">
+      <div class="carousel__track" id="carouselTrack">
 
-<!-- ==========================================
-     RÉSERVATION
-========================================== -->
-<section class="reservation" id="reservation">
-  <div class="container">
-    <p class="section-label">Prendre rendez-vous</p>
-    <h2 class="section-title">Réservation</h2>
+        <!-- ── PANEL 1 : Quand ? ──────────────── -->
+        <div class="carousel__panel" data-panel="1">
+          <p class="panel__week" id="disposWeek">Chargement…</p>
 
-    <!-- Étapes -->
-    <div class="form-steps" id="formSteps">
-      <div class="step active" data-step="1">
-        <span class="step__num">1</span>
-        <span class="step__label">Profil</span>
-      </div>
-      <div class="step__line"></div>
-      <div class="step" data-step="2">
-        <span class="step__num">2</span>
-        <span class="step__label">Service</span>
-      </div>
-      <div class="step__line"></div>
-      <div class="step" data-step="3">
-        <span class="step__num">3</span>
-        <span class="step__label">Photos</span>
-      </div>
-    </div>
+          <!-- Grille des jours (tappable) -->
+          <div class="days-grid" id="daysGrid">
+            <div class="dispos__loading">
+              <div class="dispos__loading-dot"></div>
+              <span>Mise à jour…</span>
+            </div>
+          </div>
 
-    <form class="booking-form" id="bookingForm" novalidate>
-
-      <!-- ══════════════════════════════════
-           PANEL 1 — Profil client
-           Sauvegardé en mémoire sur l'appareil
-      ══════════════════════════════════ -->
-      <div class="panel active" data-panel="1">
-
-        <!-- Retour client : bonjour + option de reset -->
-        <div class="client-returning" id="clientReturning" style="display:none">
-          <div class="client-returning__inner">
-            <span>Bonjour <strong id="returningName"></strong> 👋 Tes infos ont été retrouvées.</span>
-            <button type="button" onclick="resetClient()">Pas toi ?</button>
+          <!-- Créneaux horaires (apparaît après sélection d'un jour) -->
+          <div class="time-slots" id="timeSlots">
+            <p class="time-slots__label" id="timeSlotsLabel">Choisir un horaire</p>
+            <div class="time-slots__grid" id="timeSlotsGrid"></div>
           </div>
         </div>
 
-        <h3 class="panel__title">Ton profil</h3>
+        <!-- ── PANEL 2 : Profil ───────────────── -->
+        <div class="carousel__panel" data-panel="2">
 
-        <div class="field">
-          <label class="field__label">Ton prénom</label>
-          <input type="text" name="prenom" class="field__input" id="prenomInput" placeholder="Prénom" autocomplete="given-name">
-        </div>
-
-        <div class="field">
-          <label class="field__label">Ton adresse email</label>
-          <input type="email" name="email" class="field__input" id="emailInput" placeholder="ton@email.com" autocomplete="email">
-          <p class="field__hint">Pour recevoir la confirmation de ton rendez-vous.</p>
-        </div>
-
-        <div class="field">
-          <label class="field__label">Ton Instagram</label>
-          <input type="text" name="instagram" class="field__input" id="instaInput" placeholder="@ton_pseudo">
-          <p class="field__hint">En cas de changement de dernière minute, le contact se fait en DM.</p>
-        </div>
-
-        <!-- Avertissement report -->
-        <div class="form-notice form-notice--amber">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          <p>Les rendez-vous peuvent être reportés en cas d'imprévu. Si c'est le cas, je te préviens <strong>directement en DM Instagram</strong> pour qu'on trouve ensemble un nouveau créneau. ♥</p>
-        </div>
-
-        <button type="button" class="btn btn--primary btn--full" onclick="nextStep(1)">
-          Continuer
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-
-      <!-- ══════════════════════════════════
-           PANEL 2 — Service
-      ══════════════════════════════════ -->
-      <div class="panel" data-panel="2">
-        <h3 class="panel__title">Quel service souhaites-tu ?</h3>
-
-        <div class="radio-group" id="serviceGroup">
-          <label class="radio-card">
-            <input type="radio" name="service" value="Renforcement">
-            <div class="radio-card__inner">
-              <span class="radio-card__name">Renforcement</span>
-              <span class="radio-card__duration">~1h30 – 2h</span>
+          <!-- Retour client -->
+          <div class="client-returning" id="clientReturning" style="display:none">
+            <div class="client-returning__inner">
+              <span>Bonjour <strong id="returningName"></strong> 👋 Tes infos ont été retrouvées.</span>
+              <button type="button" onclick="resetClient()">Pas toi ?</button>
             </div>
-          </label>
-          <label class="radio-card">
-            <input type="radio" name="service" value="Pose américaine">
-            <div class="radio-card__inner">
-              <span class="radio-card__name">Pose américaine</span>
-              <span class="radio-card__duration">~2h – 2h30</span>
-            </div>
-          </label>
+          </div>
+
+          <h3 class="panel__title">Ton profil</h3>
+
+          <div class="field">
+            <label class="field__label">Prénom</label>
+            <input type="text" class="field__input" id="prenomInput" placeholder="Prénom" autocomplete="given-name">
+          </div>
+          <div class="field">
+            <label class="field__label">Email</label>
+            <input type="email" class="field__input" id="emailInput" placeholder="ton@email.com" autocomplete="email">
+            <p class="field__hint">Pour recevoir ta confirmation de rendez-vous.</p>
+          </div>
+          <div class="field">
+            <label class="field__label">Instagram</label>
+            <input type="text" class="field__input" id="instaInput" placeholder="@ton_pseudo">
+            <p class="field__hint">Pour te contacter en cas de changement.</p>
+          </div>
         </div>
 
-        <div class="field">
-          <label class="field__label">Teinte souhaitée</label>
-          <select name="teinte" class="field__select" id="teinteSelect">
-            <option value="" disabled selected>Choisir une teinte</option>
-            <option value="Nude">Nude</option>
-            <option value="Rouge">Rouge</option>
-            <option value="Les deux (French / combo)">Les deux (French / combo)</option>
-          </select>
+        <!-- ── PANEL 3 : Service ──────────────── -->
+        <div class="carousel__panel" data-panel="3">
+          <h3 class="panel__title">Quel service ?</h3>
+
+          <div class="radio-group" id="serviceGroup">
+            <label class="radio-card">
+              <input type="radio" name="service" value="Renforcement">
+              <div class="radio-card__inner">
+                <span class="radio-card__name">Renforcement</span>
+                <span class="radio-card__duration">~1h30 – 2h</span>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="service" value="Pose américaine">
+              <div class="radio-card__inner">
+                <span class="radio-card__name">Pose américaine</span>
+                <span class="radio-card__duration">~2h – 2h30</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="field">
+            <label class="field__label">Teinte souhaitée</label>
+            <select class="field__select" id="teinteSelect">
+              <option value="" disabled selected>Choisir une teinte</option>
+              <option value="Nude">Nude</option>
+              <option value="Rouge">Rouge</option>
+              <option value="Les deux (French / combo)">Les deux (French / combo)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="field__label">Message <span style="opacity:.45;font-weight:300">(optionnel)</span></label>
+            <textarea class="field__textarea" id="messageInput" placeholder="Précisions, forme souhaitée…"></textarea>
+          </div>
         </div>
 
-        <div class="field">
-          <label class="field__label">Créneau souhaité</label>
-          <input type="text" name="creneau" class="field__input" id="creneauInput" placeholder="Ex : Lundi à 9h">
-          <p class="field__hint">Consultez les disponibilités ci-dessus avant de remplir.</p>
+        <!-- ── PANEL 4 : Photos ───────────────── -->
+        <div class="carousel__panel" data-panel="4">
+          <h3 class="panel__title">Montre-moi tes ongles</h3>
+
+          <div class="upload-zone">
+            <input type="file" id="photoActuel" accept="image/*" class="upload-input" onchange="handleUpload(this,'previewActuel','labelActuel')">
+            <label for="photoActuel" class="upload-label">
+              <svg class="upload-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span class="upload-title" id="labelActuel">Photo de tes ongles actuels</span>
+              <span class="upload-sub">Requis · Appuie pour choisir</span>
+            </label>
+            <div class="upload-preview" id="previewActuel"></div>
+          </div>
+
+          <div class="upload-zone">
+            <input type="file" id="photoInspo" accept="image/*" multiple class="upload-input" onchange="handleUpload(this,'previewInspo','labelInspo')">
+            <label for="photoInspo" class="upload-label">
+              <svg class="upload-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span class="upload-title" id="labelInspo">Photo(s) d'inspiration</span>
+              <span class="upload-sub">Optionnel · Jusqu'à 3 photos</span>
+            </label>
+            <div class="upload-preview" id="previewInspo"></div>
+          </div>
+
+          <div class="form-notice">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <p>Si l'upload ne marche pas, envoie tes photos en DM <strong>@the_doll_studio_</strong></p>
+          </div>
         </div>
 
-        <div class="field">
-          <label class="field__label">Un message ? <span style="opacity:0.5;font-weight:300">(optionnel)</span></label>
-          <textarea name="message" class="field__textarea" placeholder="Précisions, questions sur la forme souhaitée…"></textarea>
-        </div>
+      </div><!-- /carousel__track -->
+    </div><!-- /carousel -->
 
-        <div class="form-nav">
-          <button type="button" class="btn btn--ghost" onclick="prevStep(2)">← Retour</button>
-          <button type="button" class="btn btn--primary" onclick="nextStep(2)">
-            Continuer
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
+    <!-- Navigation carousel -->
+    <div class="carousel__footer">
+      <button class="btn btn--ghost" id="prevBtn" onclick="prevPanel()">← Retour</button>
+      <button class="btn btn--primary" id="nextBtn" onclick="nextPanel()">
+        Continuer
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
 
-      <!-- ══════════════════════════════════
-           PANEL 3 — Photos
-      ══════════════════════════════════ -->
-      <div class="panel" data-panel="3">
-        <h3 class="panel__title">Montre-moi tes ongles</h3>
-
-        <div class="upload-zone">
-          <input type="file" id="photoActuel" accept="image/*" class="upload-input" onchange="handleUpload(this, 'previewActuel', 'labelActuel')">
-          <label for="photoActuel" class="upload-label">
-            <svg class="upload-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span class="upload-title" id="labelActuel">Photo de tes ongles actuels</span>
-            <span class="upload-sub">Requis · Appuie pour choisir</span>
-          </label>
-          <div class="upload-preview" id="previewActuel"></div>
-        </div>
-
-        <div class="upload-zone">
-          <input type="file" id="photoInspo" accept="image/*" multiple class="upload-input" onchange="handleUpload(this, 'previewInspo', 'labelInspo')">
-          <label for="photoInspo" class="upload-label">
-            <svg class="upload-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span class="upload-title" id="labelInspo">Photo(s) d'inspiration</span>
-            <span class="upload-sub">Optionnel · Jusqu'à 3 photos</span>
-          </label>
-          <div class="upload-preview" id="previewInspo"></div>
-        </div>
-
-        <div class="form-notice">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-          <p>Si tu rencontres un problème avec les photos, envoie-les en DM <strong>@the_doll_studio_</strong></p>
-        </div>
-
-        <div class="form-nav">
-          <button type="button" class="btn btn--ghost" onclick="prevStep(3)">← Retour</button>
-          <button type="submit" class="btn btn--primary">Envoyer ♥</button>
-        </div>
-      </div>
-
-    </form>
-
-    <!-- Confirmation -->
+    <!-- Confirmation (masquée jusqu'à l'envoi) -->
     <div class="confirmation" id="confirmation">
       <div class="confirmation__heart">♥</div>
       <h3 class="confirmation__title">Demande envoyée !</h3>
       <p class="confirmation__sub">Lucie te contactera dans les 24h pour confirmer ton rendez-vous.</p>
-
       <div class="confirmation__recap" id="confirmRecap"></div>
-
-      <!-- Notice report dans la confirmation -->
-      <div class="confirmation__report">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        <p>En cas d'imprévu, ton rendez-vous peut être reporté. On s'arrange toujours en DM ♥</p>
-      </div>
-
       <a href="https://ig.me/m/the_doll_studio_" class="btn btn--primary" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        Suivre sur Instagram
+        Ouvrir Instagram
       </a>
+    </div>
+
+    <!-- Notice report — toujours visible sous le bloc -->
+    <div class="booking__reschedule">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <p>Un rendez-vous peut être reporté en cas d'imprévu — on se met d'accord ensemble en DM Instagram. ♥</p>
     </div>
 
   </div>
 </section>
 
-<!-- ==========================================
-     AVANT TON RDV
-========================================== -->
+<!-- AVANT TON RDV -->
 <section class="infos">
   <div class="container">
     <div class="infos__card" data-animate>
       <h3 class="infos__title">Avant ton rendez-vous</h3>
       <ol class="infos__list">
-        <li>
-          <span class="infos__num">01</span>
-          <span>Consulte les créneaux disponibles de la semaine</span>
-        </li>
-        <li>
-          <span class="infos__num">02</span>
-          <span>Prépare une photo de tes ongles actuels</span>
-        </li>
-        <li>
-          <span class="infos__num">03</span>
-          <span>Choisis une ou plusieurs photos d'inspiration</span>
-        </li>
-        <li>
-          <span class="infos__num">04</span>
-          <span>Remplis le formulaire — tes infos sont mémorisées pour ta prochaine visite</span>
-        </li>
+        <li><span class="infos__num">01</span><span>Choisis ton créneau dans les disponibilités</span></li>
+        <li><span class="infos__num">02</span><span>Prépare une photo de tes ongles actuels</span></li>
+        <li><span class="infos__num">03</span><span>Choisis une ou plusieurs photos d'inspiration</span></li>
+        <li><span class="infos__num">04</span><span>Tes infos sont mémorisées pour ta prochaine visite</span></li>
       </ol>
     </div>
   </div>
 </section>
 
-<!-- ==========================================
-     FOOTER
-========================================== -->
+<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
     <p class="footer__logo">the doll studio</p>
