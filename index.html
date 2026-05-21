@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta name="description" content="The Doll Studio — Prothésiste ongulaire à Rennes. Renforcement & pose américaine.">
   <title>The Doll Studio — Pose d'ongles à Rennes</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,7 +29,8 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
   </div>
-  <div class="hero__line"></div>
+  <!-- Fondu doux vers la section suivante -->
+  <div class="hero__fade"></div>
 </section>
 
 <!-- TEINTES -->
@@ -61,8 +60,8 @@
   </div>
 </section>
 
-<!-- SERVICES -->
-<section class="services" id="services">
+<!-- SERVICES — padding-top réduit pour rapprocher des teintes -->
+<section class="services section--close" id="services">
   <div class="container">
     <p class="section-label">Ce que je propose</p>
     <h2 class="section-title">Mes services</h2>
@@ -86,14 +85,24 @@
   </div>
 </section>
 
+<!-- AVANT TON RDV — maintenant AVANT la réservation -->
+<section class="infos">
+  <div class="container">
+    <div class="infos__card" data-animate>
+      <h3 class="infos__title">Avant ton rendez-vous</h3>
+      <ol class="infos__list">
+        <li><span class="infos__num">01</span><span>Choisis ton créneau dans les disponibilités</span></li>
+        <li><span class="infos__num">02</span><span>Prépare une photo de tes ongles actuels</span></li>
+        <li><span class="infos__num">03</span><span>Choisis une ou plusieurs photos d'inspiration</span></li>
+        <li><span class="infos__num">04</span><span>Tes infos sont mémorisées pour ta prochaine visite</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
 <!-- ══════════════════════════════════════════════
      BLOC UNIFIÉ : DISPONIBILITÉS + RÉSERVATION
-     ══════════════════════════════════════════════
-     4 étapes dans un carousel scrollable gauche/droite :
-     1. Quand ? (jour + heure depuis Google Sheets)
-     2. Profil  (prénom, email, instagram)
-     3. Service (type + teinte)
-     4. Photos  (ongles actuels + inspiration)
+     4 étapes en carousel gauche/droite
 ══════════════════════════════════════════════ -->
 <section class="booking" id="reservation">
   <div class="container">
@@ -127,38 +136,30 @@
     <div class="carousel" id="carousel">
       <div class="carousel__track" id="carouselTrack">
 
-        <!-- ── PANEL 1 : Quand ? ──────────────── -->
+        <!-- PANEL 1 : Quand ? -->
         <div class="carousel__panel" data-panel="1">
           <p class="panel__week" id="disposWeek">Chargement…</p>
-
-          <!-- Grille des jours (tappable) -->
           <div class="days-grid" id="daysGrid">
             <div class="dispos__loading">
               <div class="dispos__loading-dot"></div>
               <span>Mise à jour…</span>
             </div>
           </div>
-
-          <!-- Créneaux horaires (apparaît après sélection d'un jour) -->
           <div class="time-slots" id="timeSlots">
             <p class="time-slots__label" id="timeSlotsLabel">Choisir un horaire</p>
             <div class="time-slots__grid" id="timeSlotsGrid"></div>
           </div>
         </div>
 
-        <!-- ── PANEL 2 : Profil ───────────────── -->
+        <!-- PANEL 2 : Profil -->
         <div class="carousel__panel" data-panel="2">
-
-          <!-- Retour client -->
           <div class="client-returning" id="clientReturning" style="display:none">
             <div class="client-returning__inner">
               <span>Bonjour <strong id="returningName"></strong> 👋 Tes infos ont été retrouvées.</span>
               <button type="button" onclick="resetClient()">Pas toi ?</button>
             </div>
           </div>
-
           <h3 class="panel__title">Ton profil</h3>
-
           <div class="field">
             <label class="field__label">Prénom</label>
             <input type="text" class="field__input" id="prenomInput" placeholder="Prénom" autocomplete="given-name">
@@ -175,10 +176,9 @@
           </div>
         </div>
 
-        <!-- ── PANEL 3 : Service ──────────────── -->
+        <!-- PANEL 3 : Service -->
         <div class="carousel__panel" data-panel="3">
           <h3 class="panel__title">Quel service ?</h3>
-
           <div class="radio-group" id="serviceGroup">
             <label class="radio-card">
               <input type="radio" name="service" value="Renforcement">
@@ -195,7 +195,6 @@
               </div>
             </label>
           </div>
-
           <div class="field">
             <label class="field__label">Teinte souhaitée</label>
             <select class="field__select" id="teinteSelect">
@@ -205,14 +204,13 @@
               <option value="Les deux (French / combo)">Les deux (French / combo)</option>
             </select>
           </div>
-
           <div class="field">
             <label class="field__label">Message <span style="opacity:.45;font-weight:300">(optionnel)</span></label>
             <textarea class="field__textarea" id="messageInput" placeholder="Précisions, forme souhaitée…"></textarea>
           </div>
         </div>
 
-        <!-- ── PANEL 4 : Photos ───────────────── -->
+        <!-- PANEL 4 : Photos -->
         <div class="carousel__panel" data-panel="4">
           <h3 class="panel__title">Montre-moi tes ongles</h3>
 
@@ -245,6 +243,12 @@
       </div><!-- /carousel__track -->
     </div><!-- /carousel -->
 
+    <!-- Notice report — AU-DESSUS du bouton Continuer -->
+    <div class="booking__reschedule" id="bookingReschedule">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <p>Un rendez-vous peut être reporté en cas d'imprévu — on se met d'accord ensemble en DM Instagram. ♥</p>
+    </div>
+
     <!-- Navigation carousel -->
     <div class="carousel__footer">
       <button class="btn btn--ghost" id="prevBtn" onclick="prevPanel()">← Retour</button>
@@ -254,7 +258,7 @@
       </button>
     </div>
 
-    <!-- Confirmation (masquée jusqu'à l'envoi) -->
+    <!-- Confirmation -->
     <div class="confirmation" id="confirmation">
       <div class="confirmation__heart">♥</div>
       <h3 class="confirmation__title">Demande envoyée !</h3>
@@ -266,27 +270,6 @@
       </a>
     </div>
 
-    <!-- Notice report — toujours visible sous le bloc -->
-    <div class="booking__reschedule">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      <p>Un rendez-vous peut être reporté en cas d'imprévu — on se met d'accord ensemble en DM Instagram. ♥</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- AVANT TON RDV -->
-<section class="infos">
-  <div class="container">
-    <div class="infos__card" data-animate>
-      <h3 class="infos__title">Avant ton rendez-vous</h3>
-      <ol class="infos__list">
-        <li><span class="infos__num">01</span><span>Choisis ton créneau dans les disponibilités</span></li>
-        <li><span class="infos__num">02</span><span>Prépare une photo de tes ongles actuels</span></li>
-        <li><span class="infos__num">03</span><span>Choisis une ou plusieurs photos d'inspiration</span></li>
-        <li><span class="infos__num">04</span><span>Tes infos sont mémorisées pour ta prochaine visite</span></li>
-      </ol>
-    </div>
   </div>
 </section>
 
