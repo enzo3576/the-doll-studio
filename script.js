@@ -100,6 +100,9 @@ function renderDispos({ semaine, jours }) {
   const grid = document.getElementById('daysGrid');
   grid.innerHTML = '';
 
+  // Recalcule la hauteur du carousel une fois les jours rendus
+  setTimeout(() => updateCarouselHeight(currentPanel), 50);
+
   jours.forEach((item, idx) => {
     const times     = parseTimes(item.slot);
     const available = times.length > 0;
@@ -145,6 +148,8 @@ function selectDay(card, jour, times) {
   });
 
   slotsBox.classList.add('visible');
+  // Recalcule la hauteur du carousel après l'animation des créneaux
+  setTimeout(() => updateCarouselHeight(1), 370);
 }
 
 function selectTime(btn, heure) {
@@ -196,9 +201,17 @@ loadClientProfile();
 let currentPanel = 1;
 const TOTAL      = 4;
 
+function updateCarouselHeight(n) {
+  const panels   = document.querySelectorAll('.carousel__panel');
+  const carousel = document.getElementById('carousel');
+  const panel    = panels[n - 1];
+  if (panel) carousel.style.height = panel.scrollHeight + 'px';
+}
+
 function goToPanel(n) {
   const track   = document.getElementById('carouselTrack');
   track.style.transform = `translateX(-${(n - 1) * 100}%)`;
+  updateCarouselHeight(n);
 
   // Steps
   document.querySelectorAll('.bstep').forEach((s, i) => {

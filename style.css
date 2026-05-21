@@ -280,9 +280,11 @@ section + section { border-top: 1px solid rgba(168,0,12,0.1); }
   border-radius: var(--r-lg);
   background: var(--card);
   border: 1px solid var(--bordure);
+  transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .carousel__track {
   display: flex;
+  align-items: flex-start; /* chaque panel prend sa hauteur naturelle */
   transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
@@ -521,7 +523,23 @@ section + section { border-top: 1px solid rgba(168,0,12,0.1); }
 .infos__list span:last-child { font-size:.87rem; color:var(--creme-pale); line-height:1.65; opacity:.85; }
 
 /* ── Footer ────────────────────────────────── */
-.footer { padding:2.5rem 0 2rem; text-align:center; border-top:1px solid rgba(168,0,12,.1); }
+.footer {
+  position: relative;
+  padding: 3rem 0 2rem;
+  text-align: center;
+  background-image: url("hero-bg.jpeg");
+  background-size: cover;
+  background-position: center bottom;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+.footer::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--noir) 0%, rgba(7,3,10,0.72) 40%, rgba(7,3,10,0.72) 100%);
+  pointer-events: none;
+}
+.footer .container { position: relative; z-index: 1; }
 .footer__logo  { font-family:var(--script); font-size:2rem; color:var(--creme); opacity:.75; margin-bottom:.4rem; }
 .footer__city  { font-size:.7rem; color:var(--creme-pale); opacity:.3; letter-spacing:.1em; margin-bottom:1.1rem; }
 .footer__ig    { display:inline-flex; align-items:center; gap:.5rem; font-size:.78rem; color:var(--creme); text-decoration:none; margin-bottom:1.75rem; transition:color var(--ease); }
