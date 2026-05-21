@@ -98,26 +98,24 @@
 
     <div class="services__grid">
 
-      <!-- SERVICE 1 — Modifier la description et la durée ici -->
       <div class="service-card" data-animate>
         <div class="service-card__num">01</div>
         <h3 class="service-card__name">Renforcement</h3>
         <p class="service-card__desc">Superposition de gel ou acrygel directement sur l'ongle naturel pour le renforcer et l'allonger subtilement. Résultat naturel et solide.</p>
         <div class="service-card__meta">
           <span>~1h30 – 2h</span>
-          <!-- Décommentez la ligne ci-dessous pour afficher un prix -->
+          <!-- Décommentez pour afficher un prix : -->
           <!-- <span>À partir de 45€</span> -->
         </div>
       </div>
 
-      <!-- SERVICE 2 — Modifier la description et la durée ici -->
       <div class="service-card" data-animate>
         <div class="service-card__num">02</div>
         <h3 class="service-card__name">Pose américaine</h3>
         <p class="service-card__desc">Extension d'ongles avec tips pour un rendu long, lisse et sculpté. Allonge et structure l'ongle pour un effet dramatic ou naturel.</p>
         <div class="service-card__meta">
           <span>~2h – 2h30</span>
-          <!-- Décommentez la ligne ci-dessous pour afficher un prix -->
+          <!-- Décommentez pour afficher un prix : -->
           <!-- <span>À partir de 55€</span> -->
         </div>
       </div>
@@ -128,70 +126,26 @@
 
 <!-- ==========================================
      DISPONIBILITÉS
-     ══════════════════════════════════════════
-     ⚡ À METTRE À JOUR CHAQUE SEMAINE ⚡
+     Chargées automatiquement depuis Google Sheets.
+     Pour configurer, voir CLAUDE.md → section Google Sheets.
 
-     Pour changer les horaires :
-     - Modifiez le texte dans chaque <span class="slot">
-     - Laissez <span class="slot"></span> vide si pas de dispo
-     - Séparez plusieurs créneaux par un point · (ex: 9h · 14h)
-     - Changez la date de la semaine dans <p class="dispos__week">
-
-     Exemple avec dispo :    <span class="slot">14h · 17h30</span>
-     Exemple sans dispo :    <span class="slot"></span>
+     ⚡ Si Google Sheets n'est pas configuré, les horaires
+     sont ceux codés dans script.js → FALLBACK_DISPOS
 ========================================== -->
 <section class="dispos" id="dispos">
   <div class="container">
     <p class="section-label">Agenda</p>
     <h2 class="section-title">Disponibilités</h2>
 
-    <!-- ⬇️ CHANGER LA DATE ICI ⬇️ -->
-    <p class="dispos__week">Semaine du 25 mai</p>
+    <!-- Date de la semaine — mise à jour depuis Google Sheets -->
+    <p class="dispos__week" id="disposWeek">Chargement…</p>
 
-    <div class="dispos__grid">
-
-      <div class="dispo-card" data-animate>
-        <span class="dispo-card__day">Lundi</span>
-        <!-- ⬇️ HORAIRES LUNDI ⬇️ -->
-        <span class="slot">9h · 13h</span>
+    <!-- Grille — peuplée automatiquement par script.js -->
+    <div class="dispos__grid" id="disposGrid">
+      <div class="dispos__loading">
+        <div class="dispos__loading-dot"></div>
+        <span>Mise à jour en cours…</span>
       </div>
-
-      <div class="dispo-card" data-animate>
-        <span class="dispo-card__day">Mardi</span>
-        <!-- ⬇️ HORAIRES MARDI ⬇️ -->
-        <span class="slot"></span>
-      </div>
-
-      <div class="dispo-card" data-animate>
-        <span class="dispo-card__day">Mercredi</span>
-        <!-- ⬇️ HORAIRES MERCREDI ⬇️ -->
-        <span class="slot">14h</span>
-      </div>
-
-      <div class="dispo-card" data-animate>
-        <span class="dispo-card__day">Jeudi</span>
-        <!-- ⬇️ HORAIRES JEUDI ⬇️ -->
-        <span class="slot">17h</span>
-      </div>
-
-      <div class="dispo-card" data-animate>
-        <span class="dispo-card__day">Vendredi</span>
-        <!-- ⬇️ HORAIRES VENDREDI ⬇️ -->
-        <span class="slot"></span>
-      </div>
-
-      <div class="dispo-card" data-animate>
-        <span class="dispo-card__day">Samedi</span>
-        <!-- ⬇️ HORAIRES SAMEDI ⬇️ -->
-        <span class="slot"></span>
-      </div>
-
-      <div class="dispo-card dispo-card--wide" data-animate>
-        <span class="dispo-card__day">Dimanche</span>
-        <!-- ⬇️ HORAIRES DIMANCHE ⬇️ -->
-        <span class="slot"></span>
-      </div>
-
     </div>
 
     <p class="dispos__note">Tu ne vois pas de créneau qui te convient&nbsp;? Envoie-moi un message, je peux parfois m'adapter. ♥</p>
@@ -210,24 +164,71 @@
     <div class="form-steps" id="formSteps">
       <div class="step active" data-step="1">
         <span class="step__num">1</span>
-        <span class="step__label">Service</span>
+        <span class="step__label">Profil</span>
       </div>
       <div class="step__line"></div>
       <div class="step" data-step="2">
         <span class="step__num">2</span>
-        <span class="step__label">Photos</span>
+        <span class="step__label">Service</span>
       </div>
       <div class="step__line"></div>
       <div class="step" data-step="3">
         <span class="step__num">3</span>
-        <span class="step__label">Contact</span>
+        <span class="step__label">Photos</span>
       </div>
     </div>
 
     <form class="booking-form" id="bookingForm" novalidate>
 
-      <!-- PANEL 1 -->
+      <!-- ══════════════════════════════════
+           PANEL 1 — Profil client
+           Sauvegardé en mémoire sur l'appareil
+      ══════════════════════════════════ -->
       <div class="panel active" data-panel="1">
+
+        <!-- Retour client : bonjour + option de reset -->
+        <div class="client-returning" id="clientReturning" style="display:none">
+          <div class="client-returning__inner">
+            <span>Bonjour <strong id="returningName"></strong> 👋 Tes infos ont été retrouvées.</span>
+            <button type="button" onclick="resetClient()">Pas toi ?</button>
+          </div>
+        </div>
+
+        <h3 class="panel__title">Ton profil</h3>
+
+        <div class="field">
+          <label class="field__label">Ton prénom</label>
+          <input type="text" name="prenom" class="field__input" id="prenomInput" placeholder="Prénom" autocomplete="given-name">
+        </div>
+
+        <div class="field">
+          <label class="field__label">Ton adresse email</label>
+          <input type="email" name="email" class="field__input" id="emailInput" placeholder="ton@email.com" autocomplete="email">
+          <p class="field__hint">Pour recevoir la confirmation de ton rendez-vous.</p>
+        </div>
+
+        <div class="field">
+          <label class="field__label">Ton Instagram</label>
+          <input type="text" name="instagram" class="field__input" id="instaInput" placeholder="@ton_pseudo">
+          <p class="field__hint">En cas de changement de dernière minute, le contact se fait en DM.</p>
+        </div>
+
+        <!-- Avertissement report -->
+        <div class="form-notice form-notice--amber">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <p>Les rendez-vous peuvent être reportés en cas d'imprévu. Si c'est le cas, je te préviens <strong>directement en DM Instagram</strong> pour qu'on trouve ensemble un nouveau créneau. ♥</p>
+        </div>
+
+        <button type="button" class="btn btn--primary btn--full" onclick="nextStep(1)">
+          Continuer
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <!-- ══════════════════════════════════
+           PANEL 2 — Service
+      ══════════════════════════════════ -->
+      <div class="panel" data-panel="2">
         <h3 class="panel__title">Quel service souhaites-tu ?</h3>
 
         <div class="radio-group" id="serviceGroup">
@@ -258,19 +259,29 @@
         </div>
 
         <div class="field">
-          <label class="field__label">Jour et horaire souhaité</label>
+          <label class="field__label">Créneau souhaité</label>
           <input type="text" name="creneau" class="field__input" id="creneauInput" placeholder="Ex : Lundi à 9h">
           <p class="field__hint">Consultez les disponibilités ci-dessus avant de remplir.</p>
         </div>
 
-        <button type="button" class="btn btn--primary btn--full" onclick="nextStep(1)">
-          Continuer
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
+        <div class="field">
+          <label class="field__label">Un message ? <span style="opacity:0.5;font-weight:300">(optionnel)</span></label>
+          <textarea name="message" class="field__textarea" placeholder="Précisions, questions sur la forme souhaitée…"></textarea>
+        </div>
+
+        <div class="form-nav">
+          <button type="button" class="btn btn--ghost" onclick="prevStep(2)">← Retour</button>
+          <button type="button" class="btn btn--primary" onclick="nextStep(2)">
+            Continuer
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
       </div>
 
-      <!-- PANEL 2 -->
-      <div class="panel" data-panel="2">
+      <!-- ══════════════════════════════════
+           PANEL 3 — Photos
+      ══════════════════════════════════ -->
+      <div class="panel" data-panel="3">
         <h3 class="panel__title">Montre-moi tes ongles</h3>
 
         <div class="upload-zone">
@@ -295,36 +306,7 @@
 
         <div class="form-notice">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-          <p>Si tu rencontres un problème avec les photos, envoie-les directement en DM Instagram <strong>@the_doll_studio_</strong></p>
-        </div>
-
-        <div class="form-nav">
-          <button type="button" class="btn btn--ghost" onclick="prevStep(2)">← Retour</button>
-          <button type="button" class="btn btn--primary" onclick="nextStep(2)">
-            Continuer
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- PANEL 3 -->
-      <div class="panel" data-panel="3">
-        <h3 class="panel__title">Comment te joindre ?</h3>
-
-        <div class="field">
-          <label class="field__label">Ton prénom</label>
-          <input type="text" name="prenom" class="field__input" id="prenomInput" placeholder="Prénom" autocomplete="given-name">
-        </div>
-
-        <div class="field">
-          <label class="field__label">Instagram ou numéro de téléphone</label>
-          <input type="text" name="contact" class="field__input" id="contactInput" placeholder="@ton_pseudo ou 06...">
-          <p class="field__hint">Pour confirmer ton rendez-vous.</p>
-        </div>
-
-        <div class="field">
-          <label class="field__label">Un message ? <span style="opacity:0.5;font-weight:300">(optionnel)</span></label>
-          <textarea name="message" class="field__textarea" placeholder="Questions, précisions sur la forme souhaitée..."></textarea>
+          <p>Si tu rencontres un problème avec les photos, envoie-les en DM <strong>@the_doll_studio_</strong></p>
         </div>
 
         <div class="form-nav">
@@ -343,13 +325,16 @@
 
       <div class="confirmation__recap" id="confirmRecap"></div>
 
-      <div class="confirmation__dm">
-        <p>N'oublie pas d'envoyer tes photos en DM si elles n'ont pas été uploadées :</p>
-        <a href="https://ig.me/m/the_doll_studio_" class="btn btn--primary" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-          Ouvrir le DM Instagram
-        </a>
+      <!-- Notice report dans la confirmation -->
+      <div class="confirmation__report">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <p>En cas d'imprévu, ton rendez-vous peut être reporté. On s'arrange toujours en DM ♥</p>
       </div>
+
+      <a href="https://ig.me/m/the_doll_studio_" class="btn btn--primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        Suivre sur Instagram
+      </a>
     </div>
 
   </div>
@@ -377,7 +362,7 @@
         </li>
         <li>
           <span class="infos__num">04</span>
-          <span>Remplis le formulaire de réservation</span>
+          <span>Remplis le formulaire — tes infos sont mémorisées pour ta prochaine visite</span>
         </li>
       </ol>
     </div>

@@ -866,6 +866,101 @@ section + section {
   opacity: 0.85;
 }
 
+/* ── Profil client retour ──────────────────── */
+.client-returning {
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.3s ease both;
+}
+
+.client-returning__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(168, 0, 12, 0.1);
+  border: 1px solid var(--bordure-forte);
+  border-radius: var(--r);
+  padding: 0.9rem 1.1rem;
+  font-size: 0.82rem;
+  color: var(--creme-pale);
+}
+
+.client-returning__inner strong { color: var(--creme); }
+
+.client-returning__inner button {
+  background: none;
+  border: none;
+  color: var(--rouge);
+  font-family: var(--ui);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 0;
+  transition: color var(--ease);
+}
+
+.client-returning__inner button:hover { color: var(--rouge-vif); }
+
+/* ── Notice amber (avertissement) ──────────── */
+.form-notice--amber {
+  background: rgba(180, 90, 0, 0.1);
+  border-color: rgba(180, 90, 0, 0.3);
+}
+
+.form-notice--amber svg { color: #C47A00; }
+
+/* ── Disponibilités loading ─────────────────── */
+.dispos__loading {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  color: var(--creme-pale);
+  opacity: 0.45;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.dispos__loading-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rouge);
+  animation: dotPulse 1.2s ease infinite;
+  flex-shrink: 0;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1.2); }
+}
+
+/* ── Confirmation report notice ─────────────── */
+.confirmation__report {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: rgba(180, 90, 0, 0.08);
+  border: 1px solid rgba(180, 90, 0, 0.2);
+  border-radius: var(--r);
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.confirmation__report svg { flex-shrink: 0; color: #C47A00; margin-top: 2px; }
+
+.confirmation__report p {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--creme-pale);
+  opacity: 0.8;
+}
+
 /* ── Footer ─────────────────────────────────── */
 .footer {
   padding: 3rem 0 2.5rem;
