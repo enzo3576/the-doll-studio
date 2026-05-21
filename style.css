@@ -118,6 +118,7 @@ body::after {
   background-image: url("hero-bg.jpeg");
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
 }
 .hero::before {
   content: '';
