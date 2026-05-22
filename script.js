@@ -125,7 +125,11 @@ function parseSheetCSV(csv) {
   const monday = parseSheetDate(rawA1);
   return {
     semaine: monday ? buildWeekLabel(monday) : rawA1,
-    jours: rows.slice(1, 8).map(r => ({ jour: r[0] || '', slot: r[1] || '' })).filter(r => r.jour)
+    // Colonnes B→F = créneaux 1 à 5, on filtre les vides et on joint avec ·
+    jours: rows.slice(1, 8).map(r => ({
+      jour: r[0] || '',
+      slot: r.slice(1, 6).filter(Boolean).join(' · ')
+    })).filter(r => r.jour)
   };
 }
 
