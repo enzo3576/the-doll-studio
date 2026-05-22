@@ -39,6 +39,18 @@ const FALLBACK_DISPOS = {
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
 
+/* ── Avatar fade au scroll ─────────────────── */
+const avatarEl = document.querySelector('.hero__avatar');
+if (avatarEl) {
+  window.addEventListener('scroll', () => {
+    const rect     = avatarEl.getBoundingClientRect();
+    // Fade de 1→0 quand le bas de la photo remonte de sa hauteur jusqu'au haut du viewport
+    const progress = Math.max(0, Math.min(1, rect.bottom / (avatarEl.offsetHeight + 20)));
+    avatarEl.style.opacity   = progress;
+    avatarEl.style.transform = `scale(${0.88 + 0.12 * progress})`;
+  }, { passive: true });
+}
+
 /* ── Animations au scroll ──────────────────── */
 const scrollObserver = new IntersectionObserver(
   entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); scrollObserver.unobserve(e.target); } }),
