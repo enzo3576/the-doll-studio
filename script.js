@@ -19,7 +19,7 @@
    → Partager le Sheet : Tout le monde avec le lien → Lecteur
    → Copier l'ID depuis l'URL du Sheet et le coller ci-dessous
 ══════════════════════════════════════════════ */
-const GOOGLE_SHEET_ID = 'VOTRE_ID_ICI';
+const GOOGLE_SHEET_ID = '1db1c3-nicad7Zod5gZK9WWImXv7CIAfbCVegM_wj1q0';
 
 /* ── Libellé de semaine ─────────────────────── */
 function buildWeekLabel(monday) {
