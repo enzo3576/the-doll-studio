@@ -243,7 +243,7 @@ section + section { border-top: 1px solid rgba(168,0,12,0.1); }
 }
 .service-card:hover { border-color: var(--bordure-forte); transform: translateY(-2px); }
 .service-card:hover::after { opacity:1; }
-.service-card__num  { font-family:var(--serif); font-size:2.6rem; font-style:italic; color:var(--rouge); line-height:1; margin-bottom:.4rem; opacity:.55; }
+.service-card__num  { font-family:var(--serif); font-size:2.6rem; font-style:italic; color:var(--rouge-vif); line-height:1; margin-bottom:.4rem; opacity:.80; text-shadow:0 0 14px rgba(232,0,26,0.4); }
 .service-card__name { font-family:var(--script); font-size:2rem; color:var(--creme); margin-bottom:.65rem; }
 .service-card__desc { font-size:.84rem; line-height:1.75; color:var(--creme-pale); opacity:.75; margin-bottom:.9rem; }
 .service-card__meta { font-size:.65rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--rouge-vif); text-shadow:0 0 12px rgba(232,0,26,0.35); }
