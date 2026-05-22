@@ -376,7 +376,7 @@ function handleUpload(input, previewId, labelId) {
    2. New Form → donne-lui un nom (ex: "The Doll Studio")
    3. Copie l'ID (ex: xpzgkwbn) et colle-le ci-dessous
 ══════════════════════════════════════════════ */
-const FORMSPREE_ID = 'VOTRE_ID_ICI';
+const FORMSPREE_ID = 'xykvjnnz';
 
 /* ── Soumission ────────────────────────────── */
 async function submitBooking() {
