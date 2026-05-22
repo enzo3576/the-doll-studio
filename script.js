@@ -128,7 +128,7 @@ function parseSheetCSV(csv) {
     // Colonnes B→F = créneaux 1 à 5, on ignore les vides et les "PRIS"
     jours: rows.slice(1, 8).map(r => ({
       jour: r[0] || '',
-      slot: r.slice(1, 6).filter(v => v && v.toUpperCase() !== 'PRIS').join(' · ')
+      slot: r.slice(1, 6).filter(v => v && !v.toUpperCase().includes('PRIS')).join(' · ')
     })).filter(r => r.jour)
   };
 }
