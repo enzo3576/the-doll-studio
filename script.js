@@ -5,25 +5,49 @@
 /* ══════════════════════════════════════════════
    CONFIGURATION GOOGLE SHEETS
    ══════════════════════════════════════════════
-   Pour connecter les disponibilités à Google Sheets :
-   1. Crée un Google Sheet avec une feuille nommée "Dispos"
-   2. Structure de la feuille :
-      A1 : Semaine du 2 juin     B1 : (vide)
-      A2 : Lundi                 B2 : 9h · 13h
-      A3 : Mardi                 B3 : (vide si pas de dispo)
-      A4 : Mercredi              B4 : 14h
-      A5 : Jeudi                 B5 : 17h
-      A6 : Vendredi              B6 : (vide)
-      A7 : Samedi                B7 : (vide)
-      A8 : Dimanche              B8 : (vide)
-   3. Partager → Tous les utilisateurs avec le lien → Lecteur
-   4. Copier l'ID de l'URL (entre /spreadsheets/d/ et /edit)
-   5. Coller cet ID ci-dessous
+   Structure du Google Sheet (feuille "Dispos") :
+
+   A1 : 02/06/2025   ← date du LUNDI (format JJ/MM/AAAA)
+   A2 : Lundi        B2 : 9h · 13h   ← plusieurs créneaux séparés par ·
+   A3 : Mardi        B3 :            ← vide = pas disponible
+   A4 : Mercredi     B4 : 14h
+   A5 : Jeudi        B5 : 17h30
+   A6 : Vendredi     B6 :
+   A7 : Samedi       B7 :
+   A8 : Dimanche     B8 :
+
+   → Partager le Sheet : Tout le monde avec le lien → Lecteur
+   → Copier l'ID depuis l'URL du Sheet et le coller ci-dessous
 ══════════════════════════════════════════════ */
 const GOOGLE_SHEET_ID = 'VOTRE_ID_ICI';
 
+/* ── Libellé de semaine ─────────────────────── */
+function buildWeekLabel(monday) {
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  const mois = ['janvier','février','mars','avril','mai','juin','juillet',
+                 'août','septembre','octobre','novembre','décembre'];
+  const d1 = monday.getDate(), mo1 = mois[monday.getMonth()];
+  const d2 = sunday.getDate(), mo2 = mois[sunday.getMonth()];
+  return monday.getMonth() === sunday.getMonth()
+    ? `Semaine du ${d1} au ${d2} ${mo2}`
+    : `Semaine du ${d1} ${mo1} au ${d2} ${mo2}`;
+}
+
+function thisMonday() {
+  const d = new Date(); d.setHours(0, 0, 0, 0);
+  const day = d.getDay();
+  d.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
+  return d;
+}
+
+function parseSheetDate(str) {
+  const m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  return m ? new Date(+m[3], +m[2] - 1, +m[1]) : null;
+}
+
 const FALLBACK_DISPOS = {
-  semaine: 'Semaine du 25 mai',
+  semaine: buildWeekLabel(thisMonday()),
   jours: [
     { jour: 'Lundi',    slot: '9h · 13h' },
     { jour: 'Mardi',    slot: '' },
@@ -97,8 +121,10 @@ function parseSheetCSV(csv) {
   const rows = csv.trim().split('\n').map(line =>
     line.split(',').map(c => c.trim().replace(/^"|"$/g, ''))
   );
+  const rawA1  = rows[0]?.[0] || '';
+  const monday = parseSheetDate(rawA1);
   return {
-    semaine: rows[0]?.[0] || '',
+    semaine: monday ? buildWeekLabel(monday) : rawA1,
     jours: rows.slice(1, 8).map(r => ({ jour: r[0] || '', slot: r[1] || '' })).filter(r => r.jour)
   };
 }
@@ -343,31 +369,59 @@ function handleUpload(input, previewId, labelId) {
   label.textContent = `${files.length} photo${files.length > 1 ? 's' : ''} sélectionnée${files.length > 1 ? 's' : ''} ✓`;
 }
 
-/* ── Soumission ────────────────────────────── */
-function submitBooking() {
-  /* Option Formspree — décommenter après avoir configuré :
-  const fd = new FormData();
-  fd.append('jour',      booking.jour);
-  fd.append('heure',     booking.heure);
-  fd.append('prenom',    document.getElementById('prenomInput').value);
-  fd.append('email',     document.getElementById('emailInput').value);
-  fd.append('instagram', document.getElementById('instaInput').value);
-  fd.append('service',   document.querySelector('input[name="service"]:checked')?.value);
-  fd.append('teinte',    document.getElementById('teinteSelect').value);
-  fd.append('message',   document.getElementById('messageInput').value);
-  fetch('https://formspree.io/f/VOTRE_ID', { method:'POST', body:fd, headers:{ Accept:'application/json' } });
-  */
+/* ══════════════════════════════════════════════
+   CONFIGURATION FORMSPREE
+   ══════════════════════════════════════════════
+   1. Va sur https://formspree.io → créer un compte
+   2. New Form → donne-lui un nom (ex: "The Doll Studio")
+   3. Copie l'ID (ex: xpzgkwbn) et colle-le ci-dessous
+══════════════════════════════════════════════ */
+const FORMSPREE_ID = 'VOTRE_ID_ICI';
 
-  const prenom    = document.getElementById('prenomInput').value;
+/* ── Soumission ────────────────────────────── */
+async function submitBooking() {
+  const prenom    = document.getElementById('prenomInput').value.trim();
+  const email     = document.getElementById('emailInput').value.trim();
+  const instagram = document.getElementById('instaInput').value.trim();
   const service   = document.querySelector('input[name="service"]:checked')?.value || '—';
   const teinte    = document.getElementById('teinteSelect').value || '—';
-  const message   = document.getElementById('messageInput').value;
+  const message   = document.getElementById('messageInput').value.trim();
 
+  /* ── Envoi Formspree ── */
+  if (FORMSPREE_ID && FORMSPREE_ID !== 'VOTRE_ID_ICI') {
+    const btn = document.querySelector('[onclick="submitBooking()"]');
+    if (btn) { btn.disabled = true; btn.textContent = 'Envoi…'; }
+    try {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          _subject:  `Demande de RDV — ${prenom} — ${booking.jour} à ${booking.heure}`,
+          _replyto:  email,
+          Jour:      booking.jour,
+          Heure:     booking.heure,
+          Prénom:    prenom,
+          Email:     email,
+          Instagram: instagram,
+          Service:   service,
+          Teinte:    teinte,
+          Message:   message || '(aucun)',
+        }),
+      });
+      if (!res.ok) throw new Error();
+    } catch {
+      if (btn) { btn.disabled = false; btn.textContent = 'Envoyer ma demande ♥'; }
+      alert('Une erreur est survenue. Envoie ta demande en DM Instagram @the_doll_studio_ ♥');
+      return;
+    }
+  }
+
+  /* ── Affichage confirmation ── */
   document.getElementById('confirmRecap').innerHTML = `
     <strong>Jour :</strong> ${booking.jour}<br>
     <strong>Heure :</strong> ${booking.heure}<br>
     <strong>Prénom :</strong> ${prenom}<br>
-    <strong>Instagram :</strong> ${document.getElementById('instaInput').value}<br>
+    <strong>Instagram :</strong> ${instagram}<br>
     <strong>Service :</strong> ${service}<br>
     <strong>Teinte :</strong> ${teinte}
     ${message ? `<br><strong>Message :</strong> ${message}` : ''}
