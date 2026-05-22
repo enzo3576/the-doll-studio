@@ -42,12 +42,12 @@ window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.
 /* ── Avatar fade au scroll ─────────────────── */
 const avatarEl = document.querySelector('.hero__avatar');
 if (avatarEl) {
+  const FADE_START = 55;   // px de scroll avant que ça commence
+  const FADE_RANGE = 220;  // px sur lesquels la photo disparaît
   window.addEventListener('scroll', () => {
-    const rect     = avatarEl.getBoundingClientRect();
-    // Fade de 1→0 quand le bas de la photo remonte de sa hauteur jusqu'au haut du viewport
-    const progress = Math.max(0, Math.min(1, rect.bottom / (avatarEl.offsetHeight + 20)));
-    avatarEl.style.opacity   = progress;
-    avatarEl.style.transform = `scale(${0.88 + 0.12 * progress})`;
+    const t = Math.max(0, Math.min(1, 1 - (window.scrollY - FADE_START) / FADE_RANGE));
+    avatarEl.style.opacity   = t;
+    avatarEl.style.transform = `scale(${0.80 + 0.20 * t})`;
   }, { passive: true });
 }
 
