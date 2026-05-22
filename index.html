@@ -153,37 +153,17 @@
           </button>
         </div>
 
-        <!-- PANEL 4 : Photos -->
+        <!-- PANEL 4 : Photos via Instagram -->
         <div class="carousel__panel" data-panel="4">
-          <h3 class="panel__title">Montre-moi tes ongles</h3>
+          <h3 class="panel__title">Dernière étape !</h3>
 
-          <div class="upload-zone">
-            <input type="file" id="photoActuel" accept="image/*" class="upload-input" onchange="handleUpload(this,'previewActuel','labelActuel')">
-            <label for="photoActuel" class="upload-label">
-              <svg class="upload-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span class="upload-title" id="labelActuel">Photo de tes ongles actuels</span>
-              <span class="upload-sub">Requis · Appuie pour choisir</span>
-            </label>
-            <div class="upload-preview" id="previewActuel"></div>
+          <div class="form-notice" style="margin-bottom:1.5rem">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            <p>Envoie une photo de tes ongles actuels + tes photos d'inspiration en message privé Instagram à <strong>@the_doll_studio_</strong></p>
           </div>
 
-          <div class="upload-zone">
-            <input type="file" id="photoInspo" accept="image/*" multiple class="upload-input" onchange="handleUpload(this,'previewInspo','labelInspo')">
-            <label for="photoInspo" class="upload-label">
-              <svg class="upload-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              <span class="upload-title" id="labelInspo">Photo(s) d'inspiration</span>
-              <span class="upload-sub">Optionnel · Jusqu'à 3 photos</span>
-            </label>
-            <div class="upload-preview" id="previewInspo"></div>
-          </div>
-
-          <div class="form-notice">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-            <p>Si l'upload ne marche pas, envoie tes photos en DM <strong>@the_doll_studio_</strong></p>
-          </div>
-
-          <button type="button" class="btn btn--primary btn--full" style="margin-top:1.5rem" onclick="submitBooking()">
-            Envoyer ma demande ♥
+          <button type="button" class="btn btn--primary btn--full" onclick="submitBooking()">
+            Valider le rendez-vous ♥
           </button>
         </div>
 
