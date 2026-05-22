@@ -371,6 +371,8 @@ function handleUpload(input, previewId, labelId) {
     reader.readAsDataURL(file);
   });
   label.textContent = `${files.length} photo${files.length > 1 ? 's' : ''} sélectionnée${files.length > 1 ? 's' : ''} ✓`;
+  // Recalcule la hauteur du carousel après que les aperçus s'affichent
+  setTimeout(() => updateCarouselHeight(currentPanel), 150);
 }
 
 /* ══════════════════════════════════════════════
@@ -449,19 +451,6 @@ async function submitBooking() {
   conf.classList.add('show');
   conf.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
-
-/* ── Auto-avance Panel 3 ───────────────────── */
-function checkPanel3AutoAdvance() {
-  const hasService = !!document.querySelector('input[name="service"]:checked');
-  const hasTeinte  = !!document.getElementById('teinteSelect').value;
-  if (hasService && hasTeinte) {
-    setTimeout(() => { if (currentPanel === 3) nextPanel(); }, 400);
-  }
-}
-document.querySelectorAll('input[name="service"]').forEach(r =>
-  r.addEventListener('change', checkPanel3AutoAdvance)
-);
-document.getElementById('teinteSelect').addEventListener('change', checkPanel3AutoAdvance);
 
 /* ── Dots de progression cliquables (retour) ── */
 document.querySelectorAll('.bstep').forEach(step => {
