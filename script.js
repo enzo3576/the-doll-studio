@@ -125,10 +125,10 @@ function parseSheetCSV(csv) {
   const monday = parseSheetDate(rawA1);
   return {
     semaine: monday ? buildWeekLabel(monday) : rawA1,
-    // Colonnes B→F = créneaux 1 à 5, on filtre les vides et on joint avec ·
+    // Colonnes B→F = créneaux 1 à 5, on ignore les vides et les "PRIS"
     jours: rows.slice(1, 8).map(r => ({
       jour: r[0] || '',
-      slot: r.slice(1, 6).filter(Boolean).join(' · ')
+      slot: r.slice(1, 6).filter(v => v && v.toUpperCase() !== 'PRIS').join(' · ')
     })).filter(r => r.jour)
   };
 }
@@ -380,7 +380,8 @@ function handleUpload(input, previewId, labelId) {
    2. New Form → donne-lui un nom (ex: "The Doll Studio")
    3. Copie l'ID (ex: xpzgkwbn) et colle-le ci-dessous
 ══════════════════════════════════════════════ */
-const FORMSPREE_ID = 'xykvjnnz';
+const FORMSPREE_ID    = 'xykvjnnz';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwANarlNhtMWcUS5BAmJoqI3YExcdumh4SpuDNabDdk-_pEIRmFoEAHjNdZB3QatE8J/exec';
 
 /* ── Soumission ────────────────────────────── */
 async function submitBooking() {
@@ -418,6 +419,15 @@ async function submitBooking() {
       alert('Une erreur est survenue. Envoie ta demande en DM Instagram @the_doll_studio_ ♥');
       return;
     }
+  }
+
+  /* ── Marquer le créneau comme PRIS dans Google Sheets ── */
+  if (APPS_SCRIPT_URL) {
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify({ jour: booking.jour, heure: booking.heure }),
+    }).catch(() => {});
   }
 
   /* ── Affichage confirmation ── */
