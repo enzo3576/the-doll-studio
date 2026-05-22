@@ -168,6 +168,8 @@ function selectTime(btn, heure) {
   document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('time-btn--selected'));
   btn.classList.add('time-btn--selected');
   booking.heure = heure;
+  // Auto-avance vers le panel Profil après un bref délai
+  setTimeout(() => { if (currentPanel === 1) nextPanel(); }, 380);
 }
 
 loadDisponibilites();
@@ -221,7 +223,7 @@ function updateCarouselHeight(n) {
 }
 
 function goToPanel(n) {
-  const track   = document.getElementById('carouselTrack');
+  const track = document.getElementById('carouselTrack');
   track.style.transform = `translateX(-${(n - 1) * 100}%)`;
   updateCarouselHeight(n);
 
@@ -230,20 +232,6 @@ function goToPanel(n) {
     s.classList.toggle('active', i + 1 === n);
     s.classList.toggle('done',   i + 1 <  n);
   });
-
-  // Bouton précédent
-  const prevBtn = document.getElementById('prevBtn');
-  prevBtn.style.visibility = n === 1 ? 'hidden' : 'visible';
-
-  // Bouton suivant
-  const nextBtn = document.getElementById('nextBtn');
-  if (n === TOTAL) {
-    nextBtn.innerHTML = 'Envoyer ♥';
-    nextBtn.onclick   = submitBooking;
-  } else {
-    nextBtn.innerHTML = 'Continuer <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
-    nextBtn.onclick   = nextPanel;
-  }
 
   currentPanel = n;
 }
@@ -385,14 +373,36 @@ function submitBooking() {
     ${message ? `<br><strong>Message :</strong> ${message}` : ''}
   `;
 
-  document.getElementById('bsteps').style.display   = 'none';
-  document.getElementById('carousel').style.display = 'none';
-  document.querySelector('.carousel__footer').style.display = 'none';
+  document.getElementById('bsteps').style.display            = 'none';
+  document.getElementById('carousel').style.display          = 'none';
+  document.getElementById('bookingReschedule').style.display = 'none';
 
   const conf = document.getElementById('confirmation');
   conf.classList.add('show');
   conf.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
+
+/* ── Auto-avance Panel 3 ───────────────────── */
+function checkPanel3AutoAdvance() {
+  const hasService = !!document.querySelector('input[name="service"]:checked');
+  const hasTeinte  = !!document.getElementById('teinteSelect').value;
+  if (hasService && hasTeinte) {
+    setTimeout(() => { if (currentPanel === 3) nextPanel(); }, 400);
+  }
+}
+document.querySelectorAll('input[name="service"]').forEach(r =>
+  r.addEventListener('change', checkPanel3AutoAdvance)
+);
+document.getElementById('teinteSelect').addEventListener('change', checkPanel3AutoAdvance);
+
+/* ── Dots de progression cliquables (retour) ── */
+document.querySelectorAll('.bstep').forEach(step => {
+  const n = parseInt(step.dataset.step);
+  step.style.cursor = 'pointer';
+  step.addEventListener('click', () => {
+    if (n < currentPanel) goToPanel(n);
+  });
+});
 
 /* Initialisation carousel */
 goToPanel(1);
