@@ -423,12 +423,21 @@ async function submitBooking() {
     }
   }
 
-  /* ── Marquer le créneau comme PRIS dans Google Sheets ── */
+  /* ── Marquer le créneau + créer event Calendar ── */
   if (APPS_SCRIPT_URL) {
     fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
-      body: JSON.stringify({ jour: booking.jour, heure: booking.heure }),
+      body: JSON.stringify({
+        jour:      booking.jour,
+        heure:     booking.heure,
+        prenom:    prenom,
+        email:     email,
+        instagram: instagram,
+        service:   service,
+        teinte:    teinte,
+        message:   message || '(aucun)',
+      }),
     }).catch(() => {});
   }
 
